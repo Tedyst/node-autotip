@@ -19,7 +19,7 @@ const options = {
 };
 
 let bot;
-let uuid = "1c57e151112f4da4a229ade98a4f0c0b";
+let uuid;
 
 function init() {
   bot = mineflayer.createBot(options);
