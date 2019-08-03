@@ -50,12 +50,11 @@ function isOnline() {
       // Assume the player is online, don't bother him.
       return true;
     }
-    console.log(importedJSON.player.lastLogout - importedJSON.player.lastLogin);
     if (importedJSON.player.lastLogout < importedJSON.player.lastLogin) {
-      console.debug("Player is Online, not relogging.")
+      logger.debug("Player is Online, not relogging.")
       return true;
     } else {
-      console.debug("Player is not Online, relogging.")
+      logger.debug("Player is not Online, relogging.")
       return false;
     }
   }
