@@ -7,6 +7,8 @@ const { tipIncrement, getLifetimeStats } = require('./lib/tracker');
 const tipper = require('./lib/tipper');
 const util = require('./util/utility');
 const credentials = require('./credentials.json');
+const request = require('sync-request');
+
 
 const options = {
   host: 'mc.hypixel.net',
@@ -15,20 +17,56 @@ const options = {
   username: credentials.username,
   password: credentials.password,
 };
+
 let bot;
-(function init() {
+let uuid = "1c57e151112f4da4a229ade98a4f0c0b";
+
+function init() {
   bot = mineflayer.createBot(options);
   bot._client.once('session', session => options.session = session);
-  bot.once('end', () => {
-    setTimeout(() => {
-      logger.info('Reconnecting...');
-      init();
-    }, 60000);
-  });
-}());
+  uuid = getUUID();
+
+};
+
+init();
+
+let interval = setInterval(function () {
+  if (!isOnline()) {
+    // Restart bot
+    logger.info('Restarting...');
+    // Exiting and rerunning the program using the wrapper since I can't figure out how to make the bot to retry joining.
+    gracefulShutdown();
+  }
+}, 6000);
+
+
+
+function isOnline() {
+  if (config.HYPIXEL_API_KEY != '') {
+    var res = request('GET', 'https://api.hypixel.net/player?key=' + config.HYPIXEL_API_KEY + '&uuid=' + uuid)
+    var importedJSON = JSON.parse(res.getBody());
+    if (importedJSON.player === undefined) {
+      logger.info("Could not get player information from hypixel.")
+      // Assume the player is online, don't bother him.
+      return true;
+    }
+    console.log(importedJSON.player.lastLogout - importedJSON.player.lastLogin);
+    if (importedJSON.player.lastLogout < importedJSON.player.lastLogin) {
+      console.debug("Player is Online, not relogging.")
+      return true;
+    } else {
+      console.debug("Player is not Online, relogging.")
+      return false;
+    }
+  }
+  // Assume the player is online, don't bother him.
+  return true;
+}
 
 function getUUID() {
-  return bot._client.session.selectedProfile.id;
+  if (bot._client.session !== undefined)
+    return bot._client.session.selectedProfile.id;
+  return ""
 }
 
 function sendToLimbo() {
@@ -77,7 +115,6 @@ function chatLogger(message) {
   logger.game(ansi);
 }
 
-let uuid;
 let autotipSession;
 
 bot.on('login', () => {
@@ -125,6 +162,7 @@ bot.on('message', (message) => {
 
 bot.on('kicked', (reason) => {
   logger.info(`Kicked for ${reason}`);
+  delete (bot);
 });
 
 function gracefulShutdown() {

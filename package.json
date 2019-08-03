@@ -17,6 +17,7 @@
     "jsonfile": "^5.0.0",
     "mineflayer": "^2.7.5",
     "request": "^2.88.0",
+    "sync-request": "^6.1.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
