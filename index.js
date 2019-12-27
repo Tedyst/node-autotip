@@ -19,27 +19,14 @@ const options = {
 };
 
 let bot;
-let uuid;
+let uuid = config.UUID;
 
 function init() {
   bot = mineflayer.createBot(options);
   bot._client.once('session', session => options.session = session);
-  uuid = getUUID();
-
 };
 
 init();
-
-let interval = setInterval(function () {
-  if (!isOnline()) {
-    // Restart bot
-    logger.info('Restarting...');
-    // Exiting and rerunning the program using the wrapper since I can't figure out how to make the bot to retry joining.
-    gracefulShutdown();
-  }
-}, 6000);
-
-
 
 function isOnline() {
   if (config.HYPIXEL_API_KEY != '') {
@@ -161,7 +148,7 @@ bot.on('message', (message) => {
 
 bot.on('kicked', (reason) => {
   logger.info(`Kicked for ${reason}`);
-  delete (bot);
+  gracefulShutdown();
 });
 
 function gracefulShutdown() {

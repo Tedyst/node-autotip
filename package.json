@@ -2,10 +2,10 @@
   "name": "node-autotip",
   "version": "2.1.1",
   "description": "",
-  "main": "index.js",
+  "main": "wrapper.js",
   "scripts": {
-    "start": "node index",
-    "dev": "node index --dev",
+    "start": "node wrapper",
+    "dev": "node wrapper --dev",
     "lint": "eslint . --ext .js,.jsx --fix",
     "lintnofix": "eslint . --ext .js,.jsx"
   },
