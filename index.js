@@ -8,6 +8,14 @@ const tipper = require('./lib/tipper');
 const util = require('./util/utility');
 const credentials = require('./credentials.json');
 const request = require('sync-request');
+var readline = require('readline');
+
+
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
 
 
 const options = {
@@ -102,6 +110,11 @@ function chatLogger(message) {
 }
 
 let autotipSession;
+
+rl.on('line', function (line) {
+  logger.debug("Writing " + line + " to chat!");
+  bot.chat(line);
+})
 
 bot.on('login', () => {
   uuid = getUUID(bot);
