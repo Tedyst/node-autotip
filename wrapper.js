@@ -12,10 +12,10 @@ function isOnline() {
             return true;
         }
         if (importedJSON.player.lastLogout < importedJSON.player.lastLogin) {
-            logger.debug("Player is Online, not relogging.")
+            logger.debug("Player is Online, not logging in.")
             return true;
         } else {
-            logger.debug("Player is not Online, relogging.")
+            logger.debug("Player is not Online, logging in.")
             return false;
         }
     }
