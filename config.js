@@ -12,7 +12,9 @@ const defaults = {
   HIDE_TIP_MESSAGES: true, // Hide chat spam from tipping
   HIDE_JOIN_MESSAGES: true, // Hide player join messages
   HYPIXEL_API_KEY: '',
-  UUID: '1c57e151112f4da4a229ade98a4f0c0b'
+  UUID: '1c57e151112f4da4a229ade98a4f0c0b',
+  USERNAME: '',
+  PASSWORD: ''
 };
 
 // ensure that process.env has all values in defaults, but prefer the process.env value

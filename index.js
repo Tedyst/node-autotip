@@ -6,7 +6,6 @@ const logger = require('./lib/logger');
 const { tipIncrement, getLifetimeStats } = require('./lib/tracker');
 const tipper = require('./lib/tipper');
 const util = require('./util/utility');
-const credentials = require('./credentials.json');
 const request = require('sync-request');
 var readline = require('readline');
 
@@ -22,8 +21,8 @@ const options = {
   host: 'mc.hypixel.net',
   port: 25565,
   version: '1.8.9',
-  username: credentials.username,
-  password: credentials.password,
+  username: config.USERNAME,
+  password: config.PASSWORD
 };
 
 let bot;
